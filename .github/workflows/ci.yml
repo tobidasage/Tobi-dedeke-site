@@ -2,9 +2,9 @@ name: CI – Resume Site
 
 on:
   push:
-    branches: [ pre-prod ]
+    branches: [ main ]
   pull_request:
-    branches: [ pre-prod ]
+    branches: [ main ]
 
 permissions:
   contents: read
