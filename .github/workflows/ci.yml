@@ -1,0 +1,49 @@
+name: CI – Resume Site
+
+on:
+  push:
+    branches: [ pre-prod ]
+  pull_request:
+    branches: [ pre-prod ]
+
+permissions:
+  contents: read
+
+jobs:
+  html-lint:
+    name: HTML Lint (htmlhint)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Install htmlhint (no project needed)
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install htmlhint
+        run: npm i -g htmlhint
+
+      - name: Lint HTML
+        # Adjust the glob if your HTML lives elsewhere
+        run: |
+          htmlhint "**/*.html" --format unix
+
+  link-check:
+    name: Link Check (lychee)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Checks all links in your repo (HTML, Markdown, etc.)
+      - name: Run lychee link checker
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --verbose --no-progress --timeout 20 --retry-wait-time 2 --max-redirects 5 .
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Fail the job if lychee found dead links
+      - name: Fail if broken links found
+        if: steps.lychee.outputs.exit_code != 0
+        run: exit 1
