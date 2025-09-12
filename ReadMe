@@ -9,5 +9,6 @@ Purpose: A resume repo, Html file holds resume information for potential recruit
 Features:
 1. Picture of the resume holder
 2. Experience leading up to current job
+3. CI job for this deployment, testing for preprod.
 
 Possible Changes: NA
