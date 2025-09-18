@@ -1,0 +1,3 @@
+#lychee to ignore the links that follow this pattern in the index file. Stops from throwing the 999 error code.
+
+^https?://(www\.)?linkedin\.com/
